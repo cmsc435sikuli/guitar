@@ -26,7 +26,6 @@ class ui(object):
         if sysproperty is None:
             sysproperty = []
         print 'installing %s plugin' % name
-        print [os.path.abspath(path) for path in classpath]
         self._cfg[name] = \
             plugin(plugin_, doc,
                    [os.path.abspath(path)
