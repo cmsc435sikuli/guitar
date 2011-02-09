@@ -1,0 +1,39 @@
+#!/usr/bin/python
+
+import pickle
+import sys, os, subprocess
+
+
+import sys, os
+import guitar
+
+def main(args):
+    if len(args) < 2:
+        args.append('help')
+
+    if args[1] == 'help':
+        print """Guitar Ripper Application
+Usage: %s [option]
+
+Available options:
+\thelp:\t\tdisplay this message
+\tplugins:\tlist available plugins
+\t<pluginname>:\trun specified plugin
+""" % args[0]
+        sys.exit(0)
+
+    # Load ui config if it exists
+    configPath = os.path.join(os.path.dirname(__file__), 'gripper-cache.txt')
+    ui_ = guitar.ui(configPath if os.path.exists(configPath) else None)
+
+    if args[1] == 'plugins':
+        # Print all available plugins
+        print 'Available plugins:\n\t%s' % '\n\t'.join(
+            ['%s:\t%s' % (name, plugin.doc) for name, plugin in ui_.plugins])
+        sys.exit(0)
+
+    sys.exit(ui_.launch('edu.umd.cs.guitar.ripper.Launcher',
+                        args[1], *args[2:]))
+
+if __name__ == '__main__':
+    main(sys.argv)
