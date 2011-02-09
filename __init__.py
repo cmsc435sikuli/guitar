@@ -44,7 +44,12 @@ class ui(object):
         # Launch java with the appropriate classpath and main function
         cmd = ['java', '-cp', ':'.join(classpath), main, plugin]
         cmd.extend(args)
-        return subprocess.call(cmd)
+        try:
+            ret = subprocess.call(cmd)
+        except KeyboardInterrupt:
+            print 'caught interrupt signal'
+            ret = 1
+        return ret
 
     @property
     def plugins(self):

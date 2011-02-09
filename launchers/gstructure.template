@@ -8,7 +8,7 @@ def main(args):
         args.append('help')
 
     if args[1] == 'help':
-        print """Guitar Ripper Application
+        print """Guitar Structure Converter Application
 Usage: %s [option]
 
 Available options:
@@ -19,7 +19,7 @@ Available options:
         sys.exit(0)
 
     # Load ui config if it exists
-    configPath = os.path.join(os.path.dirname(__file__), 'gripper-cache.txt')
+    configPath = os.path.join(os.path.dirname(__file__), 'gstructure-cache.txt')
     ui_ = guitar.ui(configPath if os.path.exists(configPath) else None)
 
     if args[1] == 'plugins':
@@ -28,7 +28,7 @@ Available options:
             ['%s:\t%s' % (name, plugin.doc) for name, plugin in ui_.plugins])
         sys.exit(0)
 
-    sys.exit(ui_.launch('edu.umd.cs.guitar.ripper.Launcher',
+    sys.exit(ui_.launch('edu.umd.cs.guitar.graph.GUIStructure2GraphConverter',
                         args[1], *args[2:]))
 
 if __name__ == '__main__':
