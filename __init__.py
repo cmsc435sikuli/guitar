@@ -1,5 +1,5 @@
 
-import os, subprocess, pickle
+import sys, os, subprocess, pickle
 from collections import namedtuple
 
 plugin = namedtuple('plugin', 'name doc classpath sysproperty')
@@ -62,3 +62,34 @@ class ui(object):
     @property
     def plugins(self):
         return [(name, plugin) for name, plugin in self._cfg.iteritems()]
+
+def cmdline(main_class, description):
+    args = sys.argv
+    name = os.path.basename(args[0])
+
+    if len(args) < 2:
+        args.append('help')
+
+    if args[1] == 'help':
+        print """%s
+Usage: %s [option]
+
+Available options:
+\thelp:\t\tdisplay this message
+\tplugins:\tlist available plugins
+\t<pluginname>:\trun specified plugin
+""" % (description, name)
+        sys.exit(0)
+    print name
+
+    # Load ui config if it exists
+    configPath = os.path.join(os.path.dirname(args[0]), '%s-cache.txt' % name)
+    ui_ = ui(configPath if os.path.exists(configPath) else None)
+
+    if args[1] == 'plugins':
+        # Print all available plugins
+        print 'Available plugins:\n\t%s' % '\n\t'.join(
+            ['%s:\t%s' % (name, plugin.doc) for name, plugin in ui_.plugins])
+        sys.exit(0)
+
+    sys.exit(ui_.launch(main_class, args[1], *args[2:]))
