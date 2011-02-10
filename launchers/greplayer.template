@@ -1,0 +1,5 @@
+#!/usr/bin/python
+import sys, guitar
+if __name__ == '__main__':
+    guitar.cmdline('edu.umd.cs.guitar.replayer.Launcher',
+                   'Guitar Replayer Application')
