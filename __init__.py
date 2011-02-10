@@ -80,7 +80,6 @@ Available options:
 \t<pluginname>:\trun specified plugin
 """ % (description, name)
         sys.exit(0)
-    print name
 
     # Load ui config if it exists
     configPath = os.path.join(os.path.dirname(args[0]), '%s-cache.txt' % name)
