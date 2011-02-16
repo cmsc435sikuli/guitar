@@ -1,4 +1,5 @@
 
+from __future__ import with_statement # For python 2.5 compatibility
 import sys, os, subprocess, pickle
 from collections import namedtuple
 
@@ -13,9 +14,9 @@ class ui(object):
             try:
                 with open(self._pathname, 'r') as f:
                     self._cfg = pickle.load(f)
-            except:
+            except IOError, e:
                 # Something went wrong reading the file, use defaults
-                pass
+                print e
 
     def __del__(self):
         if self._pathname is not None:
