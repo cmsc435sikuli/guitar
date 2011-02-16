@@ -49,9 +49,13 @@ class ui(object):
         plugin, doc, classpath, sysproperty = self._cfg[name]
 
         # Launch java with the appropriate classpath and main function
+        if (os.name == 'nt'):
+                sep = ';'
+        else:
+                sep = ':'
         cmd = ['java']
         cmd.extend(['-D%s=%s' % (name, value) for name, value in sysproperty])
-        cmd.extend(['-cp', ':'.join(classpath), main, plugin])
+        cmd.extend(['-cp', sep.join(classpath), main, plugin])
         cmd.extend(args)
         try:
             ret = subprocess.call(cmd)
